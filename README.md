@@ -11,12 +11,5 @@ A plugin that allows players to volunteer to replace SCPs that have quit early i
 
 * `required_health_percentage` - The required percentage of health (0-100) the SCP must have had to be eligible for replacement. Defaults to 95 (no percent sign)
 
-* `chaos_theory_branding` - Whether to use Chaos Theory branding in broadcasts (defaults to true)
-
-
-
-## Screenshots 
-
-![SCPSL_eJwU4qHwhQ](https://user-images.githubusercontent.com/1783464/204439649-ece4eb7f-1a5b-4a89-ac80-b5a997804448.jpg)
-![SCPSL_ndjlpsewPN](https://user-images.githubusercontent.com/1783464/204439656-7552d6fd-338a-48d4-8c8a-ff60f14463be.jpg)
+* `lottery_period_seconds` - The amount of time that the server takes before replacing players to an SCP, this is to ensure multiple people, if they want to, can volunteer to be replaced as an SCP.
 
