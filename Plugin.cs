@@ -12,7 +12,7 @@ namespace SCPReplacer
     {
         public override string Name => "SCP Replacer";
         public override string Author => "Jon M & Vicious Vikki";
-        public override Version Version => new Version(1, 0, 1);
+        public override Version Version => new Version(1, 0, 2);
 
         // Singleton pattern allows easy access to the central state from other classes
         // (e.g. commands)
@@ -64,9 +64,7 @@ namespace SCPReplacer
         {
             ScpLeft(ev.Player);
         }
-
-
-
+        
         public void ScpLeft(Player scpPlayer)
         {
             if (scpPlayer.IsScp && scpPlayer.Role != RoleTypeId.Scp0492)

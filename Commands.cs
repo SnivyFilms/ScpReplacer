@@ -95,7 +95,7 @@ namespace SCPReplacer
     {
         public string Command => "human";
 
-        public string[] Aliases => new string[] { "no" };
+        public string[] Aliases => new string[] { "no", "h" };
         public string Description => "Forfeit being an SCP and become a random human class instead (must be used near the start of the round)";
 
 
