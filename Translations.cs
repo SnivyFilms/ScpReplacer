@@ -13,7 +13,7 @@ namespace SCPReplacer
         public string NoEligibleSCPsError { get; set; } = "No SCPs are currently eligible for replacement";
         public string InvalidSCPError { get; set; } = "The SCP number you entered is not availble. Currently available SCP numbers are: ";
 
-        public string BroadcastHeader { get; set; } = "<color=yellow>[Chaos Theory SCP Replacer]</color>\n";
+        public string BroadcastHeader { get; set; } = "<color=yellow>[SCP Replacer]</color>\n";
 
         public string ReplaceBroadcast { get; set; } = "Enter <color=green>.volunteer %NUMBER%</color> in the <color=orange>~</color> console to become <color=red>SCP-%NUMBER%</color>";
     }

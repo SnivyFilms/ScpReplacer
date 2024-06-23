@@ -5,6 +5,8 @@ namespace SCPReplacer
 {
     public class Config : IConfig
     {
+        [Description("Is the plugin enabled?")]
+        public bool IsEnabled { get; set; } = true;
         public bool Debug { get; set; } = false;
 
 
@@ -19,8 +21,5 @@ namespace SCPReplacer
 
         [Description("How long (in seconds) after the first player volunteers should the SCP be replaced")]
         public int LotteryPeriodSeconds { get; set; } = 10;
-
-        [Description("Is the plugin enabled?")]
-        public bool IsEnabled { get; set; } = true;
     }
 }

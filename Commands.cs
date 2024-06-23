@@ -47,9 +47,9 @@ namespace SCPReplacer
                         return false;
                     }
 
-                    if (role.Volunteers.Contains(player))
+                    if (Plugin.Singleton.ScpsAwaitingReplacement.Any(s => s.Volunteers.Contains(player)))
                     {
-                        response = "You have already volunteered to replace this SCP";
+                        response = "You cannot volunteer more than once at a time";
                         return false;
                     }
 
@@ -120,7 +120,7 @@ namespace SCPReplacer
                 var requiredHealth = (int)(config.RequiredHealthPercentage / 100.0 * scpPlayer.MaxHealth);
                 var customRole = scpPlayer.GetCustomRoles().FirstOrDefault();
                 var scpNumber = customRole?.Name.ScpNumber() ?? scpPlayer.Role.ScpNumber();
-                Log.Info($"{scpPlayer.Nickname} left {elapsedSeconds} seconds into the round, was SCP-{scpNumber} with {scpPlayer.Health}/{scpPlayer.MaxHealth} HP ({requiredHealth} required for replacement)");
+                Log.Debug($"{scpPlayer.Nickname} left {elapsedSeconds} seconds into the round, was SCP-{scpNumber} with {scpPlayer.Health}/{scpPlayer.MaxHealth} HP ({requiredHealth} required for replacement)");
                 if (elapsedSeconds > config.QuitCutoff)
                 {
                     response = "This command must be used closer to the start of the round.";
@@ -140,14 +140,9 @@ namespace SCPReplacer
                 };
                 response = $"You became a {newRole}";
                 scpPlayer.Role.Set(newRole, Exiled.API.Enums.SpawnReason.LateJoin, RoleSpawnFlags.All);
-                if (newRole is RoleTypeId.ClassD)
-                {
-                    scpPlayer.AddItem(ItemType.Flashlight);
-                    scpPlayer.AddItem(ItemType.Coin);
-                }
                 foreach (CustomRole custom in scpPlayer.GetCustomRoles())
                     custom.RemoveRole(scpPlayer);
-                scpPlayer.Broadcast(10, Plugin.Singleton.Translation.BroadcastHeader + $"You became a <color={newRole.GetColor().ToHex()}>{newRole.GetFullName()}</color>");
+                scpPlayer.Broadcast(10, Plugin.Singleton.Translation.BroadcastHeader + $"<size=30>You became a <color={newRole.GetColor().ToHex()}>{newRole.GetFullName()}</color></size>");
                 return true;
             }
             else

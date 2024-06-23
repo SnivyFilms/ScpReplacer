@@ -11,8 +11,8 @@ namespace SCPReplacer
     public class Plugin : Plugin<Config, Translations>
     {
         public override string Name => "SCP Replacer";
-        public override string Author => "Jon M";
-        public override Version Version => new Version(1, 0, 0);
+        public override string Author => "Jon M & Vicious Vikki";
+        public override Version Version => new Version(1, 0, 1);
 
         // Singleton pattern allows easy access to the central state from other classes
         // (e.g. commands)
@@ -23,12 +23,12 @@ namespace SCPReplacer
 
         public override void OnEnabled()
         {
-            // Set up the Singleton so we can easily get the instance with all the state
+            // Set up the Singleton, so we can easily get the instance with all the state
             // from another class.
             Singleton = this;
 
             // Register event handlers
-            Exiled.Events.Handlers.Server.RoundStarted += OnRoundStart;
+            //Exiled.Events.Handlers.Server.RoundStarted += OnRoundStart;
             Exiled.Events.Handlers.Player.Left += OnPlayerLeave;
 
             base.OnEnabled();
@@ -37,7 +37,7 @@ namespace SCPReplacer
         public override void OnDisabled()
         {
             // Deregister event handlers
-            Exiled.Events.Handlers.Server.RoundStarted -= OnRoundStart;
+            //Exiled.Events.Handlers.Server.RoundStarted -= OnRoundStart;
             Exiled.Events.Handlers.Player.Left -= OnPlayerLeave;
 
             // This will prevent commands and other classes from being able to access
@@ -50,7 +50,7 @@ namespace SCPReplacer
         // These event handlers can be pulled out to their own class if needed.
         // However, due to the small size of the plugin, I kept them in this class
         // to cut back on coupling. (Partial classes would be another alternative)
-        public void OnRoundStart()
+        /*public void OnRoundStart()
         {
             foreach (var scp in Player.List.Where(p => p.IsScp))
             {
@@ -58,7 +58,7 @@ namespace SCPReplacer
             }
 
             ScpsAwaitingReplacement.Clear();
-        }
+        }*/
 
         public void OnPlayerLeave(LeftEventArgs ev)
         {
@@ -77,16 +77,16 @@ namespace SCPReplacer
                 var requiredHealth = (int)(Config.RequiredHealthPercentage / 100.0 * scpPlayer.MaxHealth);
                 var customRole = scpPlayer.GetCustomRoles().FirstOrDefault();
                 var scpNumber = customRole?.Name.ScpNumber() ?? scpPlayer.Role.ScpNumber();
-                Log.Info($"{scpPlayer.Nickname} left {elapsedSeconds} seconds into the round, was SCP-{scpNumber} with {scpPlayer.Health}/{scpPlayer.MaxHealth} HP ({requiredHealth} required for replacement)");
+                Log.Debug($"{scpPlayer.Nickname} left {elapsedSeconds} seconds into the round, was SCP-{scpNumber} with {scpPlayer.Health}/{scpPlayer.MaxHealth} HP ({requiredHealth} required for replacement)");
                 if (elapsedSeconds > Config.QuitCutoff)
                 {
-                    Log.Info("This SCP will not be replaced because the quit cutoff has already passsed");
+                    Log.Debug("This SCP will not be replaced because the quit cutoff has already passsed");
                     return;
                 }
 
                 if (scpPlayer.Health < requiredHealth)
                 {
-                    Log.Info("This SCP will not be replaced because they have lost too much health");
+                    Log.Debug("This SCP will not be replaced because they have lost too much health");
                     return;
                 }
 
@@ -97,7 +97,7 @@ namespace SCPReplacer
                     var message = Translation.ReplaceBroadcast.Replace("%NUMBER%", scpNumber);
                     // Longer broadcast time since beta test revealed users were having trouble reading it all in time
                     p.Broadcast(16, Translation.BroadcastHeader + message, Broadcast.BroadcastFlags.Normal, true);
-                    // Also send conole message in case they miss the broadcast
+                    // Also send console message in case they miss the broadcast
                     p.SendConsoleMessage(message, "yellow");
                 }
 
