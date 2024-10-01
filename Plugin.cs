@@ -12,7 +12,7 @@ namespace SCPReplacer
     {
         public override string Name => "SCP Replacer";
         public override string Author => "Jon M & Vicious Vikki";
-        public override Version Version => new Version(1, 0, 2);
+        public override Version Version => new Version(1, 0, 3);
 
         // Singleton pattern allows easy access to the central state from other classes
         // (e.g. commands)
@@ -28,7 +28,7 @@ namespace SCPReplacer
             Singleton = this;
 
             // Register event handlers
-            //Exiled.Events.Handlers.Server.RoundStarted += OnRoundStart;
+            Exiled.Events.Handlers.Server.RoundStarted += OnRoundStart;
             Exiled.Events.Handlers.Player.Left += OnPlayerLeave;
 
             base.OnEnabled();
@@ -37,7 +37,7 @@ namespace SCPReplacer
         public override void OnDisabled()
         {
             // Deregister event handlers
-            //Exiled.Events.Handlers.Server.RoundStarted -= OnRoundStart;
+            Exiled.Events.Handlers.Server.RoundStarted -= OnRoundStart;
             Exiled.Events.Handlers.Player.Left -= OnPlayerLeave;
 
             // This will prevent commands and other classes from being able to access
@@ -50,15 +50,17 @@ namespace SCPReplacer
         // These event handlers can be pulled out to their own class if needed.
         // However, due to the small size of the plugin, I kept them in this class
         // to cut back on coupling. (Partial classes would be another alternative)
-        /*public void OnRoundStart()
+        public void OnRoundStart()
         {
+            if (!Config.IndependentNotificationForScps)
+                return;
             foreach (var scp in Player.List.Where(p => p.IsScp))
             {
                 scp.Broadcast(8, "Use <color=#ff4eac>.human</color> in the <color=#b8bd00>~</color> console if you want to be a human class instead");
             }
 
             ScpsAwaitingReplacement.Clear();
-        }*/
+        }
 
         public void OnPlayerLeave(LeftEventArgs ev)
         {

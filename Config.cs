@@ -21,5 +21,8 @@ namespace SCPReplacer
 
         [Description("How long (in seconds) after the first player volunteers should the SCP be replaced")]
         public int LotteryPeriodSeconds { get; set; } = 10;
+
+        [Description("Should there be a broadcast to SCPs saying they can volenteer off from playing SCPs")]
+        public bool IndependentNotificationForScps { get; set; } = true;
     }
 }
